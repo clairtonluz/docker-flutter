@@ -1,5 +1,5 @@
 FROM clairtonluz/android-sdk
-ARG FLUTTER_VERSION=1.2.1
+ARG FLUTTER_VERSION=1.7.8+hotfix.4
 ENV FLUTTER_HOME=/opt/flutter
 ENV PATH=$PATH:$FLUTTER_HOME/bin
 
