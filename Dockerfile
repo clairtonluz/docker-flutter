@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk
+FROM openjdk:11-jdk
 ARG ANDROID_COMPILE_SDK="28"
 ARG ANDROID_BUILD_TOOLS="28.0.3" 
 ARG ANDROID_SDK_TOOLS="4333796"
@@ -17,9 +17,13 @@ RUN apt-get --quiet update --yes \
 ENV PATH=$PATH:$ANDROID_HOME/platform-tools/
 
 # FLUTTER CONFIG
-ARG FLUTTER_VERSION=1.17.3
+ARG FLUTTER_VERSION=1.17.5
 ENV FLUTTER_HOME=/opt/flutter
 ENV PATH=$PATH:$FLUTTER_HOME/bin
+
+ENV DART_HOME=${FLUTTER_HOME}/bin/cache/dart-sdk
+ENV PATH=$PATH:${DART_HOME}/bin
+
 
 RUN apt-get --quiet update --yes \
     # When you run "flutter test --coverage", it will generate coverage/lcov.info
