@@ -9,6 +9,21 @@ RUN apt-get --quiet update --yes \
     && wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-${ANDROID_SDK_TOOLS}.zip \
     && unzip -d $ANDROID_HOME android-sdk.zip \
     && rm -f android-sdk.zip \
+    && mkdir $ANDROID_HOME/tools/bin/jaxb_lib \
+    && wget https://repo1.maven.org/maven2/javax/activation/activation/1.1.1/activation-1.1.1.jar -O $ANDROID_HOME/tools/bin/jaxb_lib/activation.jar \
+    && wget https://repo1.maven.org/maven2/com/sun/xml/bind/jaxb-impl/2.3.3/jaxb-impl-2.3.3.jar -O $ANDROID_HOME/tools/bin/jaxb_lib/jaxb-impl.jar \
+    && wget https://repo1.maven.org/maven2/com/sun/istack/istack-commons-runtime/3.0.11/istack-commons-runtime-3.0.11.jar -O $ANDROID_HOME/tools/bin/jaxb_lib/istack-commons-runtime.jar \
+    && wget https://repo1.maven.org/maven2/org/glassfish/jaxb/jaxb-xjc/2.3.3/jaxb-xjc-2.3.3.jar -O $ANDROID_HOME/tools/bin/jaxb_lib/jaxb-xjc.jar \
+    && wget https://repo1.maven.org/maven2/org/glassfish/jaxb/jaxb-core/2.3.0.1/jaxb-core-2.3.0.1.jar -O $ANDROID_HOME/tools/bin/jaxb_lib/jaxb-core.jar \
+    && wget https://repo1.maven.org/maven2/org/glassfish/jaxb/jaxb-jxc/2.3.3/jaxb-jxc-2.3.3.jar -O $ANDROID_HOME/tools/bin/jaxb_lib/jaxb-jxc.jar \
+    && wget https://repo1.maven.org/maven2/javax/xml/bind/jaxb-api/2.3.1/jaxb-api-2.3.1.jar -O $ANDROID_HOME/tools/bin/jaxb_lib/jaxb-api.jar \
+    && sed -i '/^CLASSPATH=$APP_HOME/s/$/:$APP_HOME\/bin\/jaxb_lib\/activation\.jar/' $ANDROID_HOME/tools/bin/sdkmanager \
+    && sed -i '/^CLASSPATH=$APP_HOME/s/$/:$APP_HOME\/bin\/jaxb_lib\/jaxb-impl\.jar/' $ANDROID_HOME/tools/bin/sdkmanager \
+    && sed -i '/^CLASSPATH=$APP_HOME/s/$/:$APP_HOME\/bin\/jaxb_lib\/istack-commons-runtime\.jar/' $ANDROID_HOME/tools/bin/sdkmanager \
+    && sed -i '/^CLASSPATH=$APP_HOME/s/$/:$APP_HOME\/bin\/jaxb_lib\/jaxb-xjc\.jar/' $ANDROID_HOME/tools/bin/sdkmanager \
+    && sed -i '/^CLASSPATH=$APP_HOME/s/$/:$APP_HOME\/bin\/jaxb_lib\/jaxb-core\.jar/' $ANDROID_HOME/tools/bin/sdkmanager \
+    && sed -i '/^CLASSPATH=$APP_HOME/s/$/:$APP_HOME\/bin\/jaxb_lib\/jaxb-jxc\.jar/' $ANDROID_HOME/tools/bin/sdkmanager \
+    && sed -i '/^CLASSPATH=$APP_HOME/s/$/:$APP_HOME\/bin\/jaxb_lib\/jaxb-api\.jar/' $ANDROID_HOME/tools/bin/sdkmanager \
     && echo y | $ANDROID_HOME/tools/bin/sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}" >/dev/null \
     && echo y | $ANDROID_HOME/tools/bin/sdkmanager "platform-tools" >/dev/null \
     && echo y | $ANDROID_HOME/tools/bin/sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}" >/dev/null \
@@ -17,7 +32,7 @@ RUN apt-get --quiet update --yes \
 ENV PATH=$PATH:$ANDROID_HOME/platform-tools/
 
 # FLUTTER CONFIG
-ARG FLUTTER_VERSION=1.17.5
+ARG FLUTTER_VERSION=1.20.3
 ENV FLUTTER_HOME=/opt/flutter
 ENV PATH=$PATH:$FLUTTER_HOME/bin
 
